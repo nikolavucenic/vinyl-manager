@@ -46,8 +46,8 @@ class MusicBrainzApi(
                 id = id,
                 title = title,
                 artist = artist,
-                year = dateString?.let { LocalDate.parse(it).year },
-                releaseDate = dateString?.let(LocalDate::parse),
+                year = dateString?.let { extractYear(it) },
+                releaseDate = dateString?.let(::parseDateSafely),
                 coverUrl = null,
                 addedAt = Clock.System.now(),
                 lastListenedAt = null,
@@ -87,12 +87,25 @@ class MusicBrainzApi(
             id = id,
             title = title,
             artist = artist,
-            year = dateString?.let { LocalDate.parse(it).year },
-            releaseDate = dateString?.let(LocalDate::parse),
+            year = dateString?.let { extractYear(it) },
+            releaseDate = dateString?.let(::parseDateSafely),
             coverUrl = null,
             addedAt = Clock.System.now(),
             lastListenedAt = null,
             tracks = tracks
         )
+    }
+
+    private fun extractYear(value: String): Int? =
+        value.take(4).toIntOrNull()
+
+    private fun parseDateSafely(value: String): LocalDate? {
+        val normalized = when (value.length) {
+            4 -> "$value-01-01"
+            7 -> "$value-01"
+            else -> value.take(10)
+        }
+
+        return runCatching { LocalDate.parse(normalized) }.getOrNull()
     }
 }
