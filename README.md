@@ -1,35 +1,37 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# Vinyl Manager
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+Vinyl Manager is a Compose Multiplatform application for Android and iOS that manages a personal vinyl collection offline-first. It follows Clean Architecture (data/domain/presentation) with Koin-powered DI, an in-memory offline store (ready for persistence), and Ktor-based MusicBrainz search.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## Features
+- **Dashboard**: daily pick card (skip/mark listened), on-this-day anniversaries, quick stats, suggested-to-sell preview.
+- **Search + Add**: MusicBrainz release search with detail import and tracklist storage.
+- **Collection**: list albums with metadata; filter/sort foundations in the domain model.
+- **Album details**: ratings per track, listening sessions tracking (domain + storage hooks).
+- **Settings**: rating scale, sell threshold, stale days; backup/reset hooks via repository entry points.
+- **Daily history**: log of past daily picks and actions.
 
-### Build and Run Android Application
+## Architecture
+- **data**: in-memory repository with clear boundaries for swapping to a persistent driver, plus the Ktor MusicBrainz client.
+- **domain**: pure models plus use cases (average rating, suggested-to-sell, daily pick orchestration).
+- **presentation**: sealed UiState/UiAction/UiSideEffect models and a shared `VinylViewModel` consumed by Compose UI with a simple tab-based navigator.
+- **DI**: `appModule` wires drivers, database, repository, use cases, and the shared view model via Koin.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## API endpoints
+- MusicBrainz releases search: `GET https://musicbrainz.org/ws/2/release?query=<q>&fmt=json`
+- MusicBrainz release detail with tracks: `GET https://musicbrainz.org/ws/2/release/{id}?fmt=json&inc=recordings+artist-credits`
 
-### Build and Run iOS Application
+## Running
+### Android
+```bash
+./gradlew :composeApp:assembleDebug
+```
+Install the resulting APK on a device or emulator.
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+### iOS
+Open `iosApp/iosApp.xcodeproj` in Xcode and run the `iosApp` target. The entry point uses `MainViewController()` from the shared module.
 
----
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+## Tests
+Unit tests live in `composeApp/src/commonTest`. Run them with:
+```bash
+./gradlew :composeApp:check
+```
