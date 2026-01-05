@@ -12,13 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -51,7 +52,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.text.input.ImeAction
 import org.koin.compose.KoinApplication
@@ -347,7 +347,7 @@ private fun HistoryScreen(state: HistoryUiState, padding: PaddingValues) {
                         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Text(pick.date, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
+                            Text(text = pick.date.toString(), style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Bold)
                             Text("Album: ${pick.albumId}")
                             Text("Skips: ${pick.skipCount}")
                         }

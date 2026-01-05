@@ -42,6 +42,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation(compose.materialIconsExtended)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.kotlinx.datetime)
@@ -52,7 +53,6 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
-            implementation(libs.material.icons.extended)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
