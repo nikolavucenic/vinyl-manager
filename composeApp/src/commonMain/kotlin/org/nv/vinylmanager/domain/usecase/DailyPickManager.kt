@@ -1,13 +1,12 @@
 package org.nv.vinylmanager.domain.usecase
 
 import kotlinx.coroutines.flow.first
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.nv.vinylmanager.domain.model.DailyPick
 import org.nv.vinylmanager.domain.repository.VinylRepository
-import kotlin.random.Random
+import kotlin.time.Clock
 
 class DailyPickManager(
     private val repository: VinylRepository

@@ -1,10 +1,10 @@
 package org.nv.vinylmanager.domain.usecase
 
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.minus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.todayIn
 import org.nv.vinylmanager.domain.model.Settings
@@ -15,7 +15,7 @@ class SuggestedToSellUseCase {
         averageRating: Double?,
         lastListenedAt: Instant?,
         settings: Settings,
-        now: Instant = Clock.System.now()
+        now: Instant = kotlin.time.Clock.System.now()
     ): Pair<Boolean, SuggestedReason?> {
         if (averageRating != null && averageRating <= settings.sellThreshold) {
             return true to SuggestedReason.LowRating

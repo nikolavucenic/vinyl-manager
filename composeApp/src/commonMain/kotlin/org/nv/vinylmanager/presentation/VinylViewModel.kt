@@ -158,5 +158,5 @@ class VinylViewModel(
         scope.launch { repository.saveSettings(settings) }
     }
 
-    private fun today(): LocalDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    private fun today(): LocalDate = kotlin.time.Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 }
